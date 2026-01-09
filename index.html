@@ -7,18 +7,9 @@
   <meta name="theme-color" content="#0b1220" />
   <style>
     :root{
-      --bg:#0b1220;
-      --card:#101a2e;
-      --muted:#93a4c7;
-      --text:#e9f0ff;
-      --line:#213055;
-      --good:#2ee59d;
-      --warn:#ffb020;
-      --bad:#ff4d6d;
-      --btn:#1d2a4d;
-      --btn2:#22325c;
-      --shadow: 0 8px 24px rgba(0,0,0,.35);
-      --r:16px;
+      --bg:#0b1220; --card:#101a2e; --muted:#93a4c7; --text:#e9f0ff;
+      --line:#213055; --good:#2ee59d; --warn:#ffb020; --bad:#ff4d6d;
+      --shadow: 0 8px 24px rgba(0,0,0,.35); --r:16px;
     }
     *{box-sizing:border-box}
     body{
@@ -29,58 +20,22 @@
                   var(--bg);
       color:var(--text);
     }
-    a{color:#9cc2ff}
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 16px 16px 110px;
-    }
-    header{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      margin: 10px 0 16px;
-    }
-    .brand{
-      display:flex; flex-direction:column; gap:2px;
-    }
-    .brand h1{
-      margin:0;
-      font-size:18px;
-      letter-spacing:.2px;
-      font-weight:750;
-    }
-    .brand p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-    }
+    .wrap{max-width:980px;margin:0 auto;padding:16px 16px 120px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:10px 0 16px}
+    .brand{display:flex;flex-direction:column;gap:2px}
+    .brand h1{margin:0;font-size:18px;letter-spacing:.2px;font-weight:780}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
     .pill{
       border:1px solid var(--line);
       background: rgba(255,255,255,.03);
-      padding:8px 10px;
-      border-radius:999px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      white-space:nowrap;
+      padding:8px 10px;border-radius:999px;
+      display:flex;gap:10px;align-items:center;white-space:nowrap;
       box-shadow: var(--shadow);
     }
     .dot{width:10px;height:10px;border-radius:999px;background:var(--warn)}
-    .dot.good{background:var(--good)}
-    .dot.bad{background:var(--bad)}
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
-    }
-    @media (min-width: 880px){
-      .grid{
-        grid-template-columns: 360px 1fr;
-        align-items:start;
-      }
-    }
+    .dot.good{background:var(--good)} .dot.bad{background:var(--bad)}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media (min-width: 880px){ .grid{grid-template-columns:360px 1fr;align-items:start} }
     .card{
       background: rgba(255,255,255,.03);
       border: 1px solid var(--line);
@@ -88,56 +43,34 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .card h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.2px;
-      font-weight:750;
-    }
     .card .hd{
-      padding:14px 14px 10px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
+      padding:14px 14px 10px;border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
     }
-    .card .bd{ padding:14px; }
-    label{
-      display:block;
-      color:var(--muted);
-      font-size:12px;
-      margin: 10px 0 6px;
-    }
+    .card h2{margin:0;font-size:14px;letter-spacing:.2px;font-weight:780}
+    .card .bd{padding:14px}
+    label{display:block;color:var(--muted);font-size:12px;margin:10px 0 6px}
     input, textarea, select{
       width:100%;
       background: rgba(8,12,22,.7);
       border: 1px solid rgba(255,255,255,.12);
       color:var(--text);
       border-radius: 12px;
-      padding: 12px 12px;
+      padding: 12px;
       outline:none;
       font-size:14px;
     }
-    textarea{ min-height: 110px; resize: vertical; }
-    input:focus, textarea:focus{
+    textarea{min-height:110px;resize:vertical}
+    input:focus, textarea:focus, select:focus{
       border-color: rgba(156,194,255,.55);
       box-shadow: 0 0 0 4px rgba(156,194,255,.10);
     }
-    .row{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
+    .row{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:520px){
+      .row.two{grid-template-columns:1fr 1fr}
+      .row.three{grid-template-columns:1fr 1fr 1fr}
     }
-    @media (min-width: 520px){
-      .row.two{ grid-template-columns: 1fr 1fr; }
-      .row.three{ grid-template-columns: 1fr 1fr 1fr; }
-    }
-    .btnbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
+    .btnbar{display:flex;flex-wrap:wrap;gap:10px}
     button{
       appearance:none;
       border:1px solid rgba(255,255,255,.14);
@@ -145,36 +78,24 @@
       color:var(--text);
       border-radius: 14px;
       padding: 12px 14px;
-      font-weight: 700;
+      font-weight: 750;
       cursor:pointer;
       width:100%;
       min-height:44px;
     }
-    button.secondary{ background: rgba(255,255,255,.03); }
-    button.good{ border-color: rgba(46,229,157,.45); }
-    button.warn{ border-color: rgba(255,176,32,.50); }
-    button.bad{ border-color: rgba(255,77,109,.55); }
-    button:disabled{ opacity:.55; cursor:not-allowed; }
-    .tiny{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.35;
-      margin-top:10px;
-    }
+    button.secondary{background: rgba(255,255,255,.03)}
+    button.good{border-color: rgba(46,229,157,.45)}
+    button.warn{border-color: rgba(255,176,32,.50)}
+    button.bad{border-color: rgba(255,77,109,.55)}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .tiny{font-size:12px;color:var(--muted);line-height:1.35;margin-top:10px}
     .kbd{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:12px;
-      padding: 2px 6px;
-      border:1px solid rgba(255,255,255,.14);
-      border-radius: 8px;
-      background: rgba(255,255,255,.03);
-      color: #d8e6ff;
+      font-size:12px;padding:2px 6px;border:1px solid rgba(255,255,255,.14);
+      border-radius: 8px;background: rgba(255,255,255,.03);color:#d8e6ff;
     }
-
-    /* Sticky mobile action bar */
     .sticky{
-      position: fixed;
-      left:0; right:0; bottom:0;
+      position:fixed;left:0;right:0;bottom:0;
       background: rgba(7,10,18,.78);
       border-top: 1px solid rgba(255,255,255,.10);
       backdrop-filter: blur(10px);
@@ -182,58 +103,31 @@
       z-index: 50;
     }
     .sticky .inner{
-      max-width: 980px;
-      margin:0 auto;
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:10px;
+      max-width: 980px;margin:0 auto;
+      display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
     }
-    .sticky button{
-      border-radius: 16px;
-      padding: 12px 10px;
-      font-size: 13px;
-    }
-
-    /* Log */
-    .log{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+    .sticky button{border-radius:16px;padding:12px 10px;font-size:13px}
+    .log{display:flex;flex-direction:column;gap:10px}
     .entry{
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.18);
       border-radius: 14px;
       padding: 10px 12px;
     }
-    .entry .top{
-      display:flex; justify-content:space-between; gap:10px; align-items:baseline;
-      margin-bottom: 6px;
-    }
-    .tag{
-      font-size:11px;
-      color: var(--muted);
-      display:inline-flex;
-      gap:6px;
-      align-items:center;
-    }
-    .tag b{ color: var(--text); font-weight: 800; }
-    .entry pre{
-      margin:0;
-      white-space:pre-wrap;
-      word-break:break-word;
-      color:#dbe7ff;
-      font-size: 12.5px;
-      line-height: 1.35;
-    }
-    .right{
-      display:flex; gap:10px; align-items:center;
-    }
-    .iconbtn{
-      width:auto;
-      padding: 10px 12px;
-      border-radius: 12px;
+    .entry .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:6px}
+    .tag{font-size:11px;color: var(--muted);display:inline-flex;gap:6px;align-items:center}
+    .tag b{color: var(--text);font-weight: 820}
+    .entry pre{margin:0;white-space:pre-wrap;word-break:break-word;color:#dbe7ff;font-size:12.5px;line-height:1.35}
+    .right{display:flex;gap:10px;align-items:center}
+    .iconbtn{width:auto;padding:10px 12px;border-radius:12px;background: rgba(255,255,255,.03)}
+    .hintline{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .chip{
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px;
+      padding:6px 10px;
       background: rgba(255,255,255,.03);
+      color:#dbe7ff;
     }
   </style>
 </head>
@@ -243,22 +137,22 @@
     <header>
       <div class="brand">
         <h1>Lantern Admin</h1>
-        <p>When everyone’s on the same page</p>
+        <p>Topics: <span class="kbd">lantern-message-ROOM</span> · <span class="kbd">lantern-command-ROOM</span> · <span class="kbd">lantern-clientresponse-ROOM</span></p>
       </div>
-      <div class="pill" id="statusPill" title="Connection / auth status">
+      <div class="pill" id="statusPill" title="Listener / auth status">
         <span class="dot" id="statusDot"></span>
-        <span id="statusText" style="font-size:13px;color:var(--muted)">Not verified</span>
+        <span id="statusText" style="font-size:13px;color:var(--muted)">Idle</span>
       </div>
     </header>
 
     <div class="grid">
 
-      <!-- LEFT: Settings -->
+      <!-- Settings -->
       <section class="card">
         <div class="hd">
           <h2>Settings</h2>
           <div class="right">
-            <button class="iconbtn secondary" id="btnClear" type="button" title="Clear saved credentials & session">Clear</button>
+            <button class="iconbtn secondary" id="btnClear" type="button" title="Clear saved credentials & room">Clear</button>
           </div>
         </div>
         <div class="bd">
@@ -276,8 +170,13 @@
             </div>
           </div>
 
-          <label for="sessionCode">Session Code (4 chars)</label>
-          <input id="sessionCode" inputmode="text" maxlength="4" placeholder="CB32" />
+          <label for="room">Room (4 chars)</label>
+          <input id="room" inputmode="text" maxlength="4" placeholder="CB32" />
+
+          <div class="row two">
+            <button class="secondary" id="btnStartListen" type="button">Start Listening</button>
+            <button class="secondary" id="btnStopListen" type="button" disabled>Stop Listening</button>
+          </div>
 
           <div class="row two">
             <button class="secondary" id="btnVerify" type="button">Verify Auth</button>
@@ -285,76 +184,121 @@
           </div>
 
           <div class="tiny">
-            Auth uses <span class="kbd">HTTP Basic Auth</span> on each request.
-            If you host this page publicly, consider using short-lived credentials or restricting the ntfy user’s permissions.
+            This page will open a streaming connection to
+            <span class="kbd">/lantern-clientresponse-ROOM/json</span>.
+            If your server doesn’t allow auth on stream endpoints, tell me and I’ll swap it to token query or no-auth.
           </div>
         </div>
       </section>
 
-      <!-- RIGHT: Composer -->
+      <!-- Send -->
       <section class="card">
         <div class="hd">
           <h2>Send</h2>
           <div class="right">
             <select id="sendMode" aria-label="Send mode">
-              <option value="message">Message</option>
-              <option value="link">Link</option>
               <option value="command">Command</option>
+              <option value="message">Message topic</option>
             </select>
           </div>
         </div>
 
-        <div class="bd" id="panelMessage">
+        <!-- COMMAND PANEL -->
+        <div class="bd" id="panelCommand">
           <div class="row two">
             <div>
-              <label for="msgTitle">Title (optional)</label>
+              <label for="cmd">Command</label>
+              <select id="cmd">
+                <optgroup label="Core session control">
+                  <option value="lock">lock</option>
+                  <option value="unlock">unlock</option>
+                  <option value="end">end</option>
+                </optgroup>
+                <optgroup label="Navigation control">
+                  <option value="focus">focus</option>
+                  <option value="open">open</option>
+                  <option value="lock_focus">lock_focus</option>
+                </optgroup>
+                <optgroup label="Presenter messaging">
+                  <option value="announce">announce</option>
+                </optgroup>
+                <optgroup label="Countdown">
+                  <option value="countdown">countdown</option>
+                </optgroup>
+                <optgroup label="Noise control">
+                  <option value="mute">mute</option>
+                  <option value="unmute">unmute</option>
+                </optgroup>
+                <optgroup label="Soft control">
+                  <option value="freeze">freeze</option>
+                  <option value="resume">resume</option>
+                </optgroup>
+                <optgroup label="Tab cleanup">
+                  <option value="close_tabs">close_tabs</option>
+                </optgroup>
+                <optgroup label="Diagnostics / admin sync">
+                  <option value="ping">ping</option>
+                  <option value="version">version</option>
+                  <option value="state">state</option>
+                </optgroup>
+                <optgroup label="Whitelist control">
+                  <option value="whitelist_add">whitelist_add</option>
+                  <option value="whitelist_clear">whitelist_clear</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div>
+              <label for="cmdId">id (optional but recommended)</label>
+              <input id="cmdId" placeholder="auto-generated if blank" />
+            </div>
+          </div>
+
+          <label for="cmdArgs">args (JSON, optional)</label>
+          <textarea id="cmdArgs" placeholder='e.g. {"url":"https://example.com","active":true}'></textarea>
+
+          <div class="hintline" id="cmdHints"></div>
+
+          <div class="btnbar" style="margin-top:12px">
+            <button class="good" id="btnSendCommand" type="button">Send Command</button>
+          </div>
+
+          <div class="tiny">
+            Sends to <span class="kbd">lantern-command-ROOM</span> as JSON:
+            <span class="kbd">{ "cmd":"…", "id":"…", "args":{…} }</span>
+          </div>
+        </div>
+
+        <!-- MESSAGE PANEL -->
+        <div class="bd" id="panelMessage" style="display:none">
+          <div class="row two">
+            <div>
+              <label for="msgTitle">title (optional)</label>
               <input id="msgTitle" placeholder="Welcome" />
             </div>
             <div>
-              <label for="msgClick">Click URL (optional)</label>
+              <label for="msgClick">click URL (optional)</label>
               <input id="msgClick" type="url" placeholder="https://example.com" />
             </div>
           </div>
 
-          <label for="msgBody">Message (required)</label>
+          <label for="msgBody">message (required)</label>
           <textarea id="msgBody" placeholder="We’ll begin shortly."></textarea>
 
-          <label for="msgImage">Image URL (optional)</label>
+          <label for="msgImage">image URL (optional)</label>
           <input id="msgImage" type="url" placeholder="https://example.com/image.png" />
 
           <div class="btnbar" style="margin-top:12px">
-            <button class="good" id="btnSendMessage" type="button">Send Message</button>
-          </div>
-        </div>
-
-        <div class="bd" id="panelLink" style="display:none">
-          <label for="linkUrl">URL (plain text)</label>
-          <input id="linkUrl" type="url" placeholder="https://slides.example.com" />
-          <div class="btnbar" style="margin-top:12px">
-            <button class="good" id="btnSendLink" type="button">Send Link</button>
-          </div>
-          <div class="tiny">Sends raw URL as <span class="kbd">text/plain</span> to <span class="kbd">lan-&lt;CODE&gt;-link</span>.</div>
-        </div>
-
-        <div class="bd" id="panelCommand" style="display:none">
-          <label for="command">Command (plain text)</label>
-          <select id="command">
-            <option value="lock">lock</option>
-            <option value="unlock">unlock</option>
-            <option value="end">end</option>
-          </select>
-
-          <div class="row three" style="margin-top:12px">
-            <button class="warn" id="btnLock" type="button">Lock</button>
-            <button class="good" id="btnUnlock" type="button">Unlock</button>
-            <button class="bad" id="btnEnd" type="button">End</button>
+            <button class="good" id="btnSendMessage" type="button">Send Message Topic</button>
           </div>
 
-          <div class="tiny">Commands must be plain text. This will POST <span class="kbd">lock</span>, <span class="kbd">unlock</span>, or <span class="kbd">end</span> to <span class="kbd">lan-&lt;CODE&gt;-command</span>.</div>
+          <div class="tiny">
+            Publishes to <span class="kbd">lantern-message-ROOM</span> using ntfy JSON fields.
+          </div>
         </div>
       </section>
 
-      <!-- FULL WIDTH LOG -->
+      <!-- Activity -->
       <section class="card" style="grid-column:1/-1">
         <div class="hd">
           <h2>Activity</h2>
@@ -371,49 +315,45 @@
     </div>
   </div>
 
-  <!-- Sticky mobile quick actions -->
+  <!-- Sticky quick actions -->
   <div class="sticky" aria-label="Quick actions">
     <div class="inner">
       <button class="warn" id="stickyLock" type="button">Lock</button>
       <button class="good" id="stickyUnlock" type="button">Unlock</button>
-      <button class="bad" id="stickyEnd" type="button">End</button>
+      <button class="bad" id="stickyPing" type="button">Ping</button>
     </div>
   </div>
 
   <script>
-    // ---------- helpers ----------
     const $ = (id) => document.getElementById(id);
+
+    // ---- topic scheme ----
+    // message: lantern-message-ROOM
+    // command: lantern-command-ROOM
+    // client response: lantern-clientresponse-ROOM (stream at /json)
+    function normalizeRoom(room){ return (room||"").trim().toUpperCase(); }
+    function validateRoom(room){ return /^[A-Z0-9]{4}$/.test(room); }
+    function topic(type, room){ return `lantern-${type}-${room}`; }
+
+    function getBaseUrl(){ return ($("baseUrl").value.trim() || "https://ntfy.kisrani.com").replace(/\/+$/,""); }
+    function getCreds(){ return { username: $("username").value, password: $("password").value }; }
+    function getRoom(){ return normalizeRoom($("room").value); }
+
+    function basicAuthHeader(username, password){
+      return "Basic " + btoa(`${username}:${password}`);
+    }
 
     function nowStamp(){
       const d = new Date();
       return d.toLocaleString(undefined, { hour12: true });
     }
 
-    function normalizeCode(code){
-      return (code || "").trim().toUpperCase();
-    }
-
-    function validateCode(code){
-      return /^[A-Z0-9]{4}$/.test(code);
-    }
-
-    function topic(code, type){
-      return `lan-${code}-${type}`;
-    }
-
-    function basicAuthHeader(username, password){
-      // Note: btoa expects latin1; typical creds are fine. If you need unicode, we can upgrade this.
-      const token = btoa(`${username}:${password}`);
-      return `Basic ${token}`;
-    }
-
     function setStatus(state, text){
       const dot = $("statusDot");
-      const t = $("statusText");
       dot.classList.remove("good","bad");
       if (state === "good") dot.classList.add("good");
       if (state === "bad") dot.classList.add("bad");
-      t.textContent = text;
+      $("statusText").textContent = text;
     }
 
     function logEntry(kind, details, ok=true){
@@ -428,7 +368,7 @@
 
       const right = document.createElement("div");
       right.className = "tag";
-      right.textContent = getSessionCode() ? `session ${getSessionCode()}` : "no session";
+      right.textContent = validateRoom(getRoom()) ? `room ${getRoom()}` : "no room";
 
       top.appendChild(left);
       top.appendChild(right);
@@ -441,7 +381,6 @@
 
       const log = $("log");
       log.prepend(el);
-
       $("emptyLogHint").style.display = log.children.length ? "none" : "block";
     }
 
@@ -450,8 +389,10 @@
         baseUrl: $("baseUrl").value.trim(),
         username: $("username").value,
         password: $("password").value,
-        sessionCode: normalizeCode($("sessionCode").value),
-        sendMode: $("sendMode").value
+        room: normalizeRoom($("room").value),
+        sendMode: $("sendMode").value,
+        cmd: $("cmd").value,
+        cmdArgs: $("cmdArgs").value,
       };
       localStorage.setItem("lanternAdmin", JSON.stringify(data));
     }
@@ -464,8 +405,10 @@
         if (data.baseUrl) $("baseUrl").value = data.baseUrl;
         if (data.username) $("username").value = data.username;
         if (data.password) $("password").value = data.password;
-        if (data.sessionCode) $("sessionCode").value = data.sessionCode;
+        if (data.room) $("room").value = data.room;
         if (data.sendMode) $("sendMode").value = data.sendMode;
+        if (data.cmd) $("cmd").value = data.cmd;
+        if (data.cmdArgs) $("cmdArgs").value = data.cmdArgs;
       }catch{}
     }
 
@@ -473,136 +416,232 @@
       localStorage.removeItem("lanternAdmin");
       $("username").value = "";
       $("password").value = "";
-      $("sessionCode").value = "";
-      setStatus("warn", "Not verified");
-    }
-
-    function getBaseUrl(){
-      return ($("baseUrl").value.trim() || "https://ntfy.kisrani.com").replace(/\/+$/,"");
-    }
-    function getCreds(){
-      return {
-        username: $("username").value,
-        password: $("password").value
-      };
-    }
-    function getSessionCode(){
-      return normalizeCode($("sessionCode").value);
+      $("room").value = "";
+      setStatus("warn", "Idle");
     }
 
     function requireReady(){
       const baseUrl = getBaseUrl();
       const {username, password} = getCreds();
-      const code = getSessionCode();
+      const room = getRoom();
 
-      if (!baseUrl.startsWith("http")){
-        throw new Error("Base URL must start with http(s).");
-      }
-      if (!username || !password){
-        throw new Error("Username + password required.");
-      }
-      if (!validateCode(code)){
-        throw new Error("Session code must be 4 letters/numbers.");
-      }
-      return { baseUrl, username, password, code };
-    }
-
-    async function postToTopic(type, body, contentType){
-      const { baseUrl, username, password, code } = requireReady();
-      const t = topic(code, type);
-      const url = `${baseUrl}/${encodeURIComponent(t)}`;
-
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Authorization": basicAuthHeader(username, password),
-          "Content-Type": contentType
-        },
-        body
-      });
-
-      const text = await res.text().catch(()=> "");
-      if (!res.ok){
-        const msg = `HTTP ${res.status} ${res.statusText}${text ? `\n\n${text}` : ""}`;
-        throw new Error(msg);
-      }
-      return { topic: t, status: res.status, responseText: text };
-    }
-
-    async function verifyAuth(){
-      // Simplest "verify": attempt a harmless POST to a sessionless topic? That would still publish.
-      // Instead: try a POST to a dedicated admin "ping" topic that you can ignore, with a random code.
-      // We'll use current session if present; if not, use TEST.
-      const baseUrl = getBaseUrl();
-      const {username, password} = getCreds();
+      if (!baseUrl.startsWith("http")) throw new Error("Base URL must start with http(s).");
       if (!username || !password) throw new Error("Username + password required.");
+      if (!validateRoom(room)) throw new Error("Room must be 4 letters/numbers.");
+      return { baseUrl, username, password, room };
+    }
 
-      const code = validateCode(getSessionCode()) ? getSessionCode() : "TEST";
-      const t = topic(code, "message");
-      const url = `${baseUrl}/${encodeURIComponent(t)}`;
-
-      const payload = JSON.stringify({
-        title: "Lantern Admin",
-        message: "Auth verified (test publish).",
-      });
-
+    async function postJsonToTopic(topicName, payload){
+      const { baseUrl, username, password } = requireReady();
+      const url = `${baseUrl}/${encodeURIComponent(topicName)}`;
       const res = await fetch(url, {
         method: "POST",
         headers: {
           "Authorization": basicAuthHeader(username, password),
           "Content-Type": "application/json"
         },
-        body: payload
+        body: JSON.stringify(payload)
       });
-
       const text = await res.text().catch(()=> "");
-      if (!res.ok){
-        throw new Error(`HTTP ${res.status} ${res.statusText}${text ? `\n\n${text}` : ""}`);
-      }
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}${text ? `\n\n${text}` : ""}`);
+      return { status: res.status, responseText: text };
+    }
 
-      return { topic: t, status: res.status };
+    async function postNtfyFieldsToTopic(topicName, fields){
+      const { baseUrl, username, password } = requireReady();
+      const url = `${baseUrl}/${encodeURIComponent(topicName)}`;
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Authorization": basicAuthHeader(username, password),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(fields)
+      });
+      const text = await res.text().catch(()=> "");
+      if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}${text ? `\n\n${text}` : ""}`);
+      return { status: res.status, responseText: text };
+    }
+
+    // ---- streaming listener to /json ----
+    let abortListen = null;
+    let listenActive = false;
+
+    function setListenButtons(){
+      $("btnStartListen").disabled = listenActive;
+      $("btnStopListen").disabled = !listenActive;
+    }
+
+    async function startListening(){
+      const { baseUrl, username, password, room } = requireReady();
+      const t = topic("clientresponse", room);
+      const url = `${baseUrl}/${encodeURIComponent(t)}/json`;
+
+      if (abortListen) abortListen.abort();
+      abortListen = new AbortController();
+      listenActive = true;
+      setListenButtons();
+      setStatus("warn", "Listening…");
+
+      logEntry("LISTEN", `Connecting: ${t}/json`, true);
+
+      try{
+        const res = await fetch(url, {
+          method: "GET",
+          headers: { "Authorization": basicAuthHeader(username, password) },
+          signal: abortListen.signal
+        });
+
+        if (!res.ok){
+          throw new Error(`HTTP ${res.status} ${res.statusText}`);
+        }
+
+        setStatus("good", "Listening (connected)");
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buf = "";
+
+        while(true){
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+
+          // ntfy JSON stream is newline-delimited JSON
+          let idx;
+          while ((idx = buf.indexOf("\n")) >= 0){
+            const line = buf.slice(0, idx).trim();
+            buf = buf.slice(idx + 1);
+            if (!line) continue;
+
+            // Sometimes it can include non-JSON keepalive lines; ignore gracefully
+            try{
+              const obj = JSON.parse(line);
+              // Show useful fields
+              logEntry("RESPONSE", JSON.stringify(obj, null, 2), true);
+            }catch{
+              logEntry("RESPONSE", line, true);
+            }
+          }
+        }
+
+        if (!abortListen.signal.aborted){
+          setStatus("bad", "Listener ended");
+          logEntry("LISTEN", "Stream ended (server closed connection).", false);
+        }
+      }catch(err){
+        if (abortListen?.signal?.aborted){
+          setStatus("warn", "Idle");
+          logEntry("LISTEN", "Disconnected (stopped).", true);
+        }else{
+          setStatus("bad", "Listen failed");
+          logEntry("LISTEN", String(err.message || err), false);
+        }
+      }finally{
+        listenActive = false;
+        setListenButtons();
+      }
+    }
+
+    function stopListening(){
+      if (abortListen) abortListen.abort();
+    }
+
+    // ---- command hints & helpers ----
+    const CMD_HINTS = {
+      lock: ["No args", "Response: ack (if id present)"],
+      unlock: ["No args", "Response: ack"],
+      end: ["No args", "Response: ended (always) on clientresponse + maybe error"],
+      focus: ['args: {"url":"https://..."}', "Response: ack with focused"],
+      open: ['args: {"url":"https://...","active":true}', "Response: ack with opened"],
+      lock_focus: ['args: {"url":"https://..."}', "Response: ack with lockFocused"],
+      announce: ['args: {"title":"Lantern","message":"..."}', "Response: ack"],
+      countdown: ['args: {"seconds":120,"label":"Quick demo"}', "Response: ack includes countdownEnd + countdownLabel"],
+      mute: ["No args", "Suppresses lantern-message-ROOM notifications (announce still shows)"],
+      unmute: ["No args"],
+      freeze: ["No args", "Blocks new tabs + blocks navigation unless whitelisted"],
+      resume: ["No args"],
+      close_tabs: ['args: {"scope":"session|lock|all","keepPinned":true}', "Response: ack with {closed, scope, keepPinned}"],
+      ping: ["No args", 'Response: {type:"pong", room, id, ts, ok:true}'],
+      version: ["No args", 'Response: {type:"version", details:{extensionVersion, protocolVersion, userAgent...}}'],
+      state: ["No args", 'Response: {type:"state", details:{...}}'],
+      whitelist_add: ['args: {"domains":["example.com","lantern.kisrani.com"]}', "Response: ack with updated whitelist"],
+      whitelist_clear: ["No args"]
+    };
+
+    function renderCmdHints(){
+      const cmd = $("cmd").value;
+      const hints = CMD_HINTS[cmd] || [];
+      const box = $("cmdHints");
+      box.innerHTML = "";
+      for (const h of hints){
+        const el = document.createElement("div");
+        el.className = "chip";
+        el.textContent = h;
+        box.appendChild(el);
+      }
+    }
+
+    function genId(){
+      // short, readable, good enough: base36 timestamp + random
+      return (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,6)).toUpperCase();
     }
 
     function showPanel(mode){
-      $("panelMessage").style.display = mode === "message" ? "block" : "none";
-      $("panelLink").style.display    = mode === "link"    ? "block" : "none";
       $("panelCommand").style.display = mode === "command" ? "block" : "none";
+      $("panelMessage").style.display = mode === "message" ? "block" : "none";
+    }
+
+    async function verifyAuth(){
+      // Publish a harmless ping message to lantern-message-<ROOM> (your clients may show it)
+      // If you want a zero-visibility verify later, we can add a dedicated admin-only topic.
+      const { room } = requireReady();
+      const t = topic("message", room);
+
+      const fields = {
+        title: "Lantern Admin",
+        message: "Auth verified (test publish)."
+      };
+
+      const out = await postNtfyFieldsToTopic(t, fields);
+      return { topic: t, status: out.status };
     }
 
     function copyTopics(){
-      const code = getSessionCode();
-      if (!validateCode(code)) throw new Error("Enter a valid 4-char session code first.");
+      const room = getRoom();
+      if (!validateRoom(room)) throw new Error("Enter a valid 4-char room first.");
       const lines = [
-        topic(code, "message"),
-        topic(code, "link"),
-        topic(code, "command")
+        topic("message", room),
+        topic("command", room),
+        topic("clientresponse", room)
       ].join("\n");
       navigator.clipboard.writeText(lines);
       logEntry("COPY", lines, true);
     }
 
-    // ---------- wiring ----------
+    // ---- init ----
     load();
     $("baseUrl").value = $("baseUrl").value.trim() || "https://ntfy.kisrani.com";
     showPanel($("sendMode").value);
     $("emptyLogHint").style.display = $("log").children.length ? "none" : "block";
+    renderCmdHints();
+    setStatus("warn","Idle");
 
     // persist on changes
-    ["baseUrl","username","password","sessionCode","sendMode"].forEach(id=>{
+    ["baseUrl","username","password","room","sendMode","cmd","cmdArgs"].forEach(id=>{
       $(id).addEventListener("input", save);
       $(id).addEventListener("change", save);
     });
-    $("sessionCode").addEventListener("input", (e)=>{
-      // keep it clean
-      e.target.value = normalizeCode(e.target.value).slice(0,4);
+    $("room").addEventListener("input", (e)=>{
+      e.target.value = normalizeRoom(e.target.value).slice(0,4);
     });
 
-    $("sendMode").addEventListener("change", (e)=>{
-      showPanel(e.target.value);
-    });
+    $("sendMode").addEventListener("change", (e)=> showPanel(e.target.value));
+    $("cmd").addEventListener("change", renderCmdHints);
 
     $("btnClear").addEventListener("click", ()=>{
-      if (confirm("Clear saved settings (credentials + session code) on this device?")){
+      if (confirm("Clear saved settings (credentials + room) on this device?")){
+        stopListening();
         clearSaved();
         save();
       }
@@ -620,87 +659,96 @@
 
     $("btnVerify").addEventListener("click", async ()=>{
       try{
-        setStatus("warn", "Verifying…");
+        setStatus("warn","Verifying…");
         const out = await verifyAuth();
         setStatus("good", `Auth OK (${out.status})`);
         logEntry("VERIFY", `Published test message to ${out.topic}`, true);
       }catch(err){
-        setStatus("bad", "Auth failed");
+        setStatus("bad","Auth failed");
         logEntry("VERIFY", String(err.message || err), false);
+      }
+    });
+
+    $("btnStartListen").addEventListener("click", async ()=>{
+      try{ await startListening(); }
+      catch(err){ logEntry("LISTEN", String(err.message||err), false); }
+    });
+
+    $("btnStopListen").addEventListener("click", ()=>{
+      stopListening();
+    });
+
+    $("btnSendCommand").addEventListener("click", async ()=>{
+      try{
+        const { room } = requireReady();
+        const t = topic("command", room);
+
+        const cmd = $("cmd").value;
+        const id = ($("cmdId").value.trim() || genId());
+
+        let args = undefined;
+        const rawArgs = $("cmdArgs").value.trim();
+        if (rawArgs){
+          try{
+            args = JSON.parse(rawArgs);
+          }catch{
+            throw new Error("args must be valid JSON (or leave blank).");
+          }
+        }
+
+        const payload = { cmd, id };
+        if (args !== undefined) payload.args = args;
+
+        const out = await postJsonToTopic(t, payload);
+        setStatus("good","Sent");
+        logEntry("COMMAND", `POST ${t}\n\n${JSON.stringify(payload, null, 2)}`, true);
+      }catch(err){
+        setStatus("bad","Send failed");
+        logEntry("COMMAND", String(err.message || err), false);
       }
     });
 
     $("btnSendMessage").addEventListener("click", async ()=>{
       try{
+        const { room } = requireReady();
+        const t = topic("message", room);
+
         const title = $("msgTitle").value.trim();
         const message = $("msgBody").value.trim();
         const click = $("msgClick").value.trim();
         const image = $("msgImage").value.trim();
 
-        if (!message) throw new Error("Message body is required.");
+        if (!message) throw new Error("message is required.");
 
-        const payload = {};
-        if (title) payload.title = title;
-        payload.message = message;
-        if (image) payload.image = image;
-        if (click) payload.click = click;
+        const fields = {};
+        if (title) fields.title = title;
+        fields.message = message;
+        if (image) fields.image = image;
+        if (click) fields.click = click;
 
-        const out = await postToTopic("message", JSON.stringify(payload), "application/json");
-        setStatus("good", "Sent");
-        logEntry("MESSAGE", `POST ${out.topic}\n\n${JSON.stringify(payload, null, 2)}`, true);
+        const out = await postNtfyFieldsToTopic(t, fields);
+        setStatus("good","Sent");
+        logEntry("MESSAGE", `POST ${t}\n\n${JSON.stringify(fields, null, 2)}`, true);
       }catch(err){
-        setStatus("bad", "Send failed");
+        setStatus("bad","Send failed");
         logEntry("MESSAGE", String(err.message || err), false);
       }
     });
 
-    $("btnSendLink").addEventListener("click", async ()=>{
-      try{
-        const url = $("linkUrl").value.trim();
-        if (!url) throw new Error("Link URL is required.");
-        // ntfy expects plain text; keep it raw
-        const out = await postToTopic("link", url, "text/plain; charset=utf-8");
-        setStatus("good", "Sent");
-        logEntry("LINK", `POST ${out.topic}\n\n${url}`, true);
-      }catch(err){
-        setStatus("bad", "Send failed");
-        logEntry("LINK", String(err.message || err), false);
-      }
-    });
-
-    async function sendCommand(cmd){
-      const out = await postToTopic("command", cmd, "text/plain; charset=utf-8");
-      setStatus("good", "Sent");
-      logEntry("COMMAND", `POST ${out.topic}\n\n${cmd}`, true);
-      return out;
+    // Sticky quick actions: lock/unlock/ping (since end is spicy; you can swap it in)
+    async function quick(cmd){
+      $("sendMode").value = "command";
+      showPanel("command");
+      $("cmd").value = cmd;
+      renderCmdHints();
+      $("cmdArgs").value = "";
+      $("cmdId").value = "";
+      save();
+      $("btnSendCommand").click();
     }
-
-    $("btnLock").addEventListener("click", async ()=>{
-      try{ await sendCommand("lock"); }catch(err){
-        setStatus("bad", "Send failed"); logEntry("COMMAND", String(err.message || err), false);
-      }
-    });
-    $("btnUnlock").addEventListener("click", async ()=>{
-      try{ await sendCommand("unlock"); }catch(err){
-        setStatus("bad", "Send failed"); logEntry("COMMAND", String(err.message || err), false);
-      }
-    });
-    $("btnEnd").addEventListener("click", async ()=>{
-      try{
-        if (!confirm("End session for everyone? This will unlock and disconnect all clients.")) return;
-        await sendCommand("end");
-      }catch(err){
-        setStatus("bad", "Send failed"); logEntry("COMMAND", String(err.message || err), false);
-      }
-    });
-
-    // sticky quick actions
-    $("stickyLock").addEventListener("click", () => $("btnLock").click());
-    $("stickyUnlock").addEventListener("click", () => $("btnUnlock").click());
-    $("stickyEnd").addEventListener("click", () => $("btnEnd").click());
-
-    // default status
-    setStatus("warn", "Not verified");
+    $("stickyLock").addEventListener("click", ()=>quick("lock"));
+    $("stickyUnlock").addEventListener("click", ()=>quick("unlock"));
+    $("stickyPing").addEventListener("click", ()=>quick("ping"));
   </script>
 </body>
 </html>
