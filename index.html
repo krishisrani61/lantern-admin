@@ -7,9 +7,8 @@
   <meta name="theme-color" content="#0b1220" />
   <style>
     :root{
-      --bg:#0b1220; --card:#101a2e; --muted:#93a4c7; --text:#e9f0ff;
-      --line:#213055; --good:#2ee59d; --warn:#ffb020; --bad:#ff4d6d;
-      --shadow: 0 8px 24px rgba(0,0,0,.35); --r:16px;
+      --bg:#0b1220; --muted:#93a4c7; --text:#e9f0ff; --line:#213055;
+      --good:#2ee59d; --warn:#ffb020; --bad:#ff4d6d; --shadow:0 8px 24px rgba(0,0,0,.35); --r:16px;
     }
     *{box-sizing:border-box}
     body{
@@ -102,33 +101,17 @@
       padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
       z-index: 50;
     }
-    .sticky .inner{
-      max-width: 980px;margin:0 auto;
-      display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
-    }
+    .sticky .inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
     .sticky button{border-radius:16px;padding:12px 10px;font-size:13px}
     .log{display:flex;flex-direction:column;gap:10px}
-    .entry{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-      border-radius: 14px;
-      padding: 10px 12px;
-    }
+    .entry{border:1px solid rgba(255,255,255,.10);background: rgba(0,0,0,.18);border-radius: 14px;padding: 10px 12px}
     .entry .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:6px}
     .tag{font-size:11px;color: var(--muted);display:inline-flex;gap:6px;align-items:center}
     .tag b{color: var(--text);font-weight: 820}
     .entry pre{margin:0;white-space:pre-wrap;word-break:break-word;color:#dbe7ff;font-size:12.5px;line-height:1.35}
-    .right{display:flex;gap:10px;align-items:center}
-    .iconbtn{width:auto;padding:10px 12px;border-radius:12px;background: rgba(255,255,255,.03)}
-    .hintline{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-    .chip{
-      font-size:12px;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:999px;
-      padding:6px 10px;
-      background: rgba(255,255,255,.03);
-      color:#dbe7ff;
-    }
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{font-size:12px;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:6px 10px;background: rgba(255,255,255,.03);color:#dbe7ff}
+    .divider{height:1px;background: rgba(255,255,255,.08);margin:14px 0}
   </style>
 </head>
 
@@ -139,20 +122,19 @@
         <h1>Lantern Admin</h1>
         <p>Topics: <span class="kbd">lantern-message-ROOM</span> · <span class="kbd">lantern-command-ROOM</span> · <span class="kbd">lantern-clientresponse-ROOM</span></p>
       </div>
-      <div class="pill" id="statusPill" title="Listener / auth status">
+      <div class="pill" title="Listener / auth status">
         <span class="dot" id="statusDot"></span>
         <span id="statusText" style="font-size:13px;color:var(--muted)">Idle</span>
       </div>
     </header>
 
     <div class="grid">
-
       <!-- Settings -->
       <section class="card">
         <div class="hd">
           <h2>Settings</h2>
-          <div class="right">
-            <button class="iconbtn secondary" id="btnClear" type="button" title="Clear saved credentials & room">Clear</button>
+          <div class="btnbar" style="width:auto">
+            <button class="secondary" id="btnClear" type="button" style="width:auto">Clear</button>
           </div>
         </div>
         <div class="bd">
@@ -184,9 +166,7 @@
           </div>
 
           <div class="tiny">
-            This page will open a streaming connection to
-            <span class="kbd">/lantern-clientresponse-ROOM/json</span>.
-            If your server doesn’t allow auth on stream endpoints, tell me and I’ll swap it to token query or no-auth.
+            Listener connects to <span class="kbd">/lantern-clientresponse-ROOM/json</span> and parses newline-delimited JSON.
           </div>
         </div>
       </section>
@@ -195,7 +175,7 @@
       <section class="card">
         <div class="hd">
           <h2>Send</h2>
-          <div class="right">
+          <div class="row two" style="width:220px">
             <select id="sendMode" aria-label="Send mode">
               <option value="command">Command</option>
               <option value="message">Message topic</option>
@@ -249,51 +229,77 @@
             </div>
 
             <div>
-              <label for="cmdId">id (optional but recommended)</label>
+              <label for="cmdId">id</label>
               <input id="cmdId" placeholder="auto-generated if blank" />
             </div>
           </div>
 
-          <label for="cmdArgs">args (JSON, optional)</label>
-          <textarea id="cmdArgs" placeholder='e.g. {"url":"https://example.com","active":true}'></textarea>
+          <div id="argsArea"></div>
 
-          <div class="hintline" id="cmdHints"></div>
+          <div class="chips" id="cmdHints"></div>
 
           <div class="btnbar" style="margin-top:12px">
             <button class="good" id="btnSendCommand" type="button">Send Command</button>
           </div>
 
           <div class="tiny">
-            Sends to <span class="kbd">lantern-command-ROOM</span> as JSON:
-            <span class="kbd">{ "cmd":"…", "id":"…", "args":{…} }</span>
+            Posts JSON to <span class="kbd">lantern-command-ROOM</span>:
+            <span class="kbd">{cmd,id,args}</span>
           </div>
         </div>
 
-        <!-- MESSAGE PANEL -->
+        <!-- MESSAGE PANEL (ntfy publish fields) -->
         <div class="bd" id="panelMessage" style="display:none">
           <div class="row two">
             <div>
-              <label for="msgTitle">title (optional)</label>
-              <input id="msgTitle" placeholder="Welcome" />
+              <label for="ntfyTitle">title (optional)</label>
+              <input id="ntfyTitle" placeholder="Welcome" />
             </div>
             <div>
-              <label for="msgClick">click URL (optional)</label>
-              <input id="msgClick" type="url" placeholder="https://example.com" />
+              <label for="ntfyClick">click (optional)</label>
+              <input id="ntfyClick" type="url" placeholder="https://example.com" />
             </div>
           </div>
 
-          <label for="msgBody">message (required)</label>
-          <textarea id="msgBody" placeholder="We’ll begin shortly."></textarea>
+          <label for="ntfyMessage">message (required)</label>
+          <textarea id="ntfyMessage" placeholder="We’ll begin shortly."></textarea>
 
-          <label for="msgImage">image URL (optional)</label>
-          <input id="msgImage" type="url" placeholder="https://example.com/image.png" />
+          <div class="row two">
+            <div>
+              <label for="ntfyAttach">attach / image URL (optional)</label>
+              <input id="ntfyAttach" type="url" placeholder="https://example.com/image.png" />
+            </div>
+            <div>
+              <label for="ntfyPriority">priority (optional)</label>
+              <select id="ntfyPriority">
+                <option value="">(default)</option>
+                <option value="1">1 - min</option>
+                <option value="2">2 - low</option>
+                <option value="3">3 - default</option>
+                <option value="4">4 - high</option>
+                <option value="5">5 - max</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row two">
+            <div>
+              <label for="ntfyTags">tags (optional, comma-separated)</label>
+              <input id="ntfyTags" placeholder="lantern,info" />
+            </div>
+            <div>
+              <label for="ntfyDelay">delay (optional)</label>
+              <input id="ntfyDelay" placeholder="10s or 2026-01-08T18:00:00" />
+            </div>
+          </div>
 
           <div class="btnbar" style="margin-top:12px">
-            <button class="good" id="btnSendMessage" type="button">Send Message Topic</button>
+            <button class="good" id="btnSendMessage" type="button">Send Message</button>
           </div>
 
           <div class="tiny">
-            Publishes to <span class="kbd">lantern-message-ROOM</span> using ntfy JSON fields.
+            Publishes using ntfy parameters to <span class="kbd">lantern-message-ROOM</span> as
+            <span class="kbd">application/x-www-form-urlencoded</span> (title/message/click/attach/etc).
           </div>
         </div>
       </section>
@@ -303,7 +309,7 @@
         <div class="hd">
           <h2>Activity</h2>
           <div class="right">
-            <button class="iconbtn secondary" id="btnClearLog" type="button">Clear Log</button>
+            <button class="secondary" id="btnClearLog" type="button" style="width:auto">Clear Log</button>
           </div>
         </div>
         <div class="bd">
@@ -311,26 +317,21 @@
           <div class="tiny" id="emptyLogHint" style="display:none">No activity yet. Send something spicy 🌶️</div>
         </div>
       </section>
-
     </div>
   </div>
 
-  <!-- Sticky quick actions -->
   <div class="sticky" aria-label="Quick actions">
     <div class="inner">
       <button class="warn" id="stickyLock" type="button">Lock</button>
       <button class="good" id="stickyUnlock" type="button">Unlock</button>
-      <button class="bad" id="stickyPing" type="button">Ping</button>
+      <button class="bad" id="stickyEnd" type="button">End</button>
     </div>
   </div>
 
   <script>
     const $ = (id) => document.getElementById(id);
 
-    // ---- topic scheme ----
-    // message: lantern-message-ROOM
-    // command: lantern-command-ROOM
-    // client response: lantern-clientresponse-ROOM (stream at /json)
+    // topics
     function normalizeRoom(room){ return (room||"").trim().toUpperCase(); }
     function validateRoom(room){ return /^[A-Z0-9]{4}$/.test(room); }
     function topic(type, room){ return `lantern-${type}-${room}`; }
@@ -339,14 +340,9 @@
     function getCreds(){ return { username: $("username").value, password: $("password").value }; }
     function getRoom(){ return normalizeRoom($("room").value); }
 
-    function basicAuthHeader(username, password){
-      return "Basic " + btoa(`${username}:${password}`);
-    }
+    function basicAuthHeader(username, password){ return "Basic " + btoa(`${username}:${password}`); }
 
-    function nowStamp(){
-      const d = new Date();
-      return d.toLocaleString(undefined, { hour12: true });
-    }
+    function nowStamp(){ return new Date().toLocaleString(undefined, { hour12: true }); }
 
     function setStatus(state, text){
       const dot = $("statusDot");
@@ -392,7 +388,14 @@
         room: normalizeRoom($("room").value),
         sendMode: $("sendMode").value,
         cmd: $("cmd").value,
-        cmdArgs: $("cmdArgs").value,
+        // message fields
+        ntfyTitle: $("ntfyTitle").value,
+        ntfyMessage: $("ntfyMessage").value,
+        ntfyClick: $("ntfyClick").value,
+        ntfyAttach: $("ntfyAttach").value,
+        ntfyPriority: $("ntfyPriority").value,
+        ntfyTags: $("ntfyTags").value,
+        ntfyDelay: $("ntfyDelay").value,
       };
       localStorage.setItem("lanternAdmin", JSON.stringify(data));
     }
@@ -401,14 +404,20 @@
       try{
         const raw = localStorage.getItem("lanternAdmin");
         if (!raw) return;
-        const data = JSON.parse(raw);
-        if (data.baseUrl) $("baseUrl").value = data.baseUrl;
-        if (data.username) $("username").value = data.username;
-        if (data.password) $("password").value = data.password;
-        if (data.room) $("room").value = data.room;
-        if (data.sendMode) $("sendMode").value = data.sendMode;
-        if (data.cmd) $("cmd").value = data.cmd;
-        if (data.cmdArgs) $("cmdArgs").value = data.cmdArgs;
+        const d = JSON.parse(raw);
+        if (d.baseUrl) $("baseUrl").value = d.baseUrl;
+        if (d.username) $("username").value = d.username;
+        if (d.password) $("password").value = d.password;
+        if (d.room) $("room").value = d.room;
+        if (d.sendMode) $("sendMode").value = d.sendMode;
+        if (d.cmd) $("cmd").value = d.cmd;
+        if (d.ntfyTitle) $("ntfyTitle").value = d.ntfyTitle;
+        if (d.ntfyMessage) $("ntfyMessage").value = d.ntfyMessage;
+        if (d.ntfyClick) $("ntfyClick").value = d.ntfyClick;
+        if (d.ntfyAttach) $("ntfyAttach").value = d.ntfyAttach;
+        if (d.ntfyPriority) $("ntfyPriority").value = d.ntfyPriority;
+        if (d.ntfyTags) $("ntfyTags").value = d.ntfyTags;
+        if (d.ntfyDelay) $("ntfyDelay").value = d.ntfyDelay;
       }catch{}
     }
 
@@ -424,14 +433,17 @@
       const baseUrl = getBaseUrl();
       const {username, password} = getCreds();
       const room = getRoom();
-
       if (!baseUrl.startsWith("http")) throw new Error("Base URL must start with http(s).");
       if (!username || !password) throw new Error("Username + password required.");
       if (!validateRoom(room)) throw new Error("Room must be 4 letters/numbers.");
       return { baseUrl, username, password, room };
     }
 
-    async function postJsonToTopic(topicName, payload){
+    function genId(){
+      return (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,6)).toUpperCase();
+    }
+
+    async function postJson(topicName, payload){
       const { baseUrl, username, password } = requireReady();
       const url = `${baseUrl}/${encodeURIComponent(topicName)}`;
       const res = await fetch(url, {
@@ -447,23 +459,33 @@
       return { status: res.status, responseText: text };
     }
 
-    async function postNtfyFieldsToTopic(topicName, fields){
+    // ntfy publish params (form-encoded) to message topic
+    async function postNtfyForm(topicName, paramsObj){
       const { baseUrl, username, password } = requireReady();
       const url = `${baseUrl}/${encodeURIComponent(topicName)}`;
+      const form = new URLSearchParams();
+      for (const [k,v] of Object.entries(paramsObj)){
+        if (v === undefined || v === null) continue;
+        const s = String(v).trim();
+        if (!s) continue;
+        form.set(k, s);
+      }
+
       const res = await fetch(url, {
         method: "POST",
         headers: {
           "Authorization": basicAuthHeader(username, password),
-          "Content-Type": "application/json"
+          "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
         },
-        body: JSON.stringify(fields)
+        body: form.toString()
       });
+
       const text = await res.text().catch(()=> "");
       if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}${text ? `\n\n${text}` : ""}`);
-      return { status: res.status, responseText: text };
+      return { status: res.status, responseText: text, body: form.toString() };
     }
 
-    // ---- streaming listener to /json ----
+    // ---- streaming listener ----
     let abortListen = null;
     let listenActive = false;
 
@@ -492,9 +514,7 @@
           signal: abortListen.signal
         });
 
-        if (!res.ok){
-          throw new Error(`HTTP ${res.status} ${res.statusText}`);
-        }
+        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
 
         setStatus("good", "Listening (connected)");
 
@@ -507,17 +527,14 @@
           if (done) break;
           buf += decoder.decode(value, { stream: true });
 
-          // ntfy JSON stream is newline-delimited JSON
           let idx;
           while ((idx = buf.indexOf("\n")) >= 0){
             const line = buf.slice(0, idx).trim();
             buf = buf.slice(idx + 1);
             if (!line) continue;
 
-            // Sometimes it can include non-JSON keepalive lines; ignore gracefully
             try{
               const obj = JSON.parse(line);
-              // Show useful fields
               logEntry("RESPONSE", JSON.stringify(obj, null, 2), true);
             }catch{
               logEntry("RESPONSE", line, true);
@@ -543,35 +560,85 @@
       }
     }
 
-    function stopListening(){
-      if (abortListen) abortListen.abort();
-    }
+    function stopListening(){ if (abortListen) abortListen.abort(); }
 
-    // ---- command hints & helpers ----
-    const CMD_HINTS = {
-      lock: ["No args", "Response: ack (if id present)"],
-      unlock: ["No args", "Response: ack"],
-      end: ["No args", "Response: ended (always) on clientresponse + maybe error"],
-      focus: ['args: {"url":"https://..."}', "Response: ack with focused"],
-      open: ['args: {"url":"https://...","active":true}', "Response: ack with opened"],
-      lock_focus: ['args: {"url":"https://..."}', "Response: ack with lockFocused"],
-      announce: ['args: {"title":"Lantern","message":"..."}', "Response: ack"],
-      countdown: ['args: {"seconds":120,"label":"Quick demo"}', "Response: ack includes countdownEnd + countdownLabel"],
-      mute: ["No args", "Suppresses lantern-message-ROOM notifications (announce still shows)"],
-      unmute: ["No args"],
-      freeze: ["No args", "Blocks new tabs + blocks navigation unless whitelisted"],
-      resume: ["No args"],
-      close_tabs: ['args: {"scope":"session|lock|all","keepPinned":true}', "Response: ack with {closed, scope, keepPinned}"],
-      ping: ["No args", 'Response: {type:"pong", room, id, ts, ok:true}'],
-      version: ["No args", 'Response: {type:"version", details:{extensionVersion, protocolVersion, userAgent...}}'],
-      state: ["No args", 'Response: {type:"state", details:{...}}'],
-      whitelist_add: ['args: {"domains":["example.com","lantern.kisrani.com"]}', "Response: ack with updated whitelist"],
-      whitelist_clear: ["No args"]
+    // ---- command form schema ----
+    const CMD_SCHEMA = {
+      lock: { hints:["No args","Response: ack (if id present)"], fields: [] },
+      unlock: { hints:["No args","Response: ack"], fields: [] },
+      end: { hints:["No args","Response: ended on clientresponse"], fields: [] },
+
+      focus: {
+        hints:['Navigate active tab to url','Response: ack with focused'],
+        fields: [{ key:"url", label:"URL", type:"url", required:true, placeholder:"https://example.com" }]
+      },
+      open: {
+        hints:['Open new tab to url','Response: ack with opened'],
+        fields: [
+          { key:"url", label:"URL", type:"url", required:true, placeholder:"https://example.com" },
+          { key:"active", label:"Active tab?", type:"bool", required:false, default:true }
+        ]
+      },
+      lock_focus: {
+        hints:['Focus everyone to url then lock','Response: ack with lockFocused'],
+        fields: [{ key:"url", label:"URL", type:"url", required:true, placeholder:"https://lantern.kisrani.com/wait" }]
+      },
+
+      announce: {
+        hints:['Shows Lantern notification (independent of message topic)','Response: ack'],
+        fields: [
+          { key:"title", label:"Title", type:"text", required:false, placeholder:"Lantern" },
+          { key:"message", label:"Message", type:"textarea", required:true, placeholder:"Eyes up — quick demo." }
+        ]
+      },
+
+      countdown: {
+        hints:['Countdown end = now + seconds','Response includes countdownEnd + countdownLabel'],
+        fields: [
+          { key:"seconds", label:"Seconds", type:"number", required:true, placeholder:"120", min:1 },
+          { key:"label", label:"Label", type:"text", required:false, placeholder:"Quick demo" }
+        ]
+      },
+
+      mute: { hints:['Suppresses lantern-message-ROOM notifications only'], fields: [] },
+      unmute: { hints:['Re-enable lantern-message-ROOM notifications'], fields: [] },
+
+      freeze: { hints:['Blocks new tabs + blocks navigation unless whitelisted'], fields: [] },
+      resume: { hints:['Restore normal navigation'], fields: [] },
+
+      close_tabs: {
+        hints:['Closes tabs opened during scope','keepPinned defaults true'],
+        fields: [
+          { key:"scope", label:"Scope", type:"select", required:true, options:[
+            {v:"session", t:"session (since join)"},
+            {v:"lock", t:"lock (since lock started)"},
+            {v:"all", t:"all (union)"}
+          ], default:"session" },
+          { key:"keepPinned", label:"Keep pinned tabs?", type:"bool", required:false, default:true }
+        ]
+      },
+
+      ping: { hints:['Client responds with pong'], fields: [] },
+      version: { hints:['Client responds with version info'], fields: [] },
+      state: { hints:['Client responds with state snapshot'], fields: [] },
+
+      whitelist_add: {
+        hints:['Adds allowed domains (freeze only)','Exact host or subdomain match'],
+        fields: [
+          { key:"domains", label:"Domains (comma-separated)", type:"csv", required:true, placeholder:"example.com, lantern.kisrani.com" }
+        ]
+      },
+      whitelist_clear: { hints:['Clears whitelist'], fields: [] }
     };
+
+    function showPanel(mode){
+      $("panelCommand").style.display = mode === "command" ? "block" : "none";
+      $("panelMessage").style.display = mode === "message" ? "block" : "none";
+    }
 
     function renderCmdHints(){
       const cmd = $("cmd").value;
-      const hints = CMD_HINTS[cmd] || [];
+      const hints = (CMD_SCHEMA[cmd]?.hints || []);
       const box = $("cmdHints");
       box.innerHTML = "";
       for (const h of hints){
@@ -582,28 +649,111 @@
       }
     }
 
-    function genId(){
-      // short, readable, good enough: base36 timestamp + random
-      return (Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,6)).toUpperCase();
+    function renderArgsForm(){
+      const cmd = $("cmd").value;
+      const schema = CMD_SCHEMA[cmd] || { fields: [] };
+      const area = $("argsArea");
+      area.innerHTML = "";
+
+      if (!schema.fields.length){
+        const p = document.createElement("div");
+        p.className = "tiny";
+        p.textContent = "No args for this command.";
+        area.appendChild(p);
+        return;
+      }
+
+      const wrap = document.createElement("div");
+      wrap.className = "divider";
+      area.appendChild(wrap);
+
+      for (const f of schema.fields){
+        const id = `arg_${cmd}_${f.key}`;
+
+        const lab = document.createElement("label");
+        lab.htmlFor = id;
+        lab.textContent = f.label + (f.required ? " (required)" : " (optional)");
+        area.appendChild(lab);
+
+        let input;
+        if (f.type === "textarea"){
+          input = document.createElement("textarea");
+          input.placeholder = f.placeholder || "";
+        } else if (f.type === "select"){
+          input = document.createElement("select");
+          for (const opt of f.options){
+            const o = document.createElement("option");
+            o.value = opt.v; o.textContent = opt.t;
+            input.appendChild(o);
+          }
+          if (f.default !== undefined) input.value = f.default;
+        } else if (f.type === "bool"){
+          input = document.createElement("select");
+          input.innerHTML = `<option value="true">true</option><option value="false">false</option>`;
+          input.value = (f.default === false) ? "false" : "true";
+        } else {
+          input = document.createElement("input");
+          input.type = (f.type === "number") ? "number" : (f.type === "url" ? "url" : "text");
+          input.placeholder = f.placeholder || "";
+          if (f.type === "number" && f.min !== undefined) input.min = String(f.min);
+          if (f.default !== undefined && f.default !== null) input.value = String(f.default);
+        }
+
+        input.id = id;
+        input.dataset.argKey = f.key;
+        input.dataset.argType = f.type;
+        input.dataset.required = f.required ? "1" : "0";
+
+        // layout niceness: group small fields in rows when possible
+        area.appendChild(input);
+      }
     }
 
-    function showPanel(mode){
-      $("panelCommand").style.display = mode === "command" ? "block" : "none";
-      $("panelMessage").style.display = mode === "message" ? "block" : "none";
+    function readArgsFromForm(){
+      const cmd = $("cmd").value;
+      const schema = CMD_SCHEMA[cmd] || { fields: [] };
+      if (!schema.fields.length) return undefined;
+
+      const args = {};
+      for (const f of schema.fields){
+        const el = document.querySelector(`#arg_${cmd}_${f.key}`);
+        if (!el) continue;
+
+        let raw = (el.value ?? "").toString().trim();
+
+        if (f.required && !raw){
+          throw new Error(`Missing required arg: ${f.key}`);
+        }
+        if (!raw && !f.required) continue;
+
+        if (f.type === "number"){
+          const n = Number(raw);
+          if (!Number.isFinite(n)) throw new Error(`Arg ${f.key} must be a number`);
+          args[f.key] = n;
+        } else if (f.type === "bool"){
+          args[f.key] = (raw === "true");
+        } else if (f.type === "csv"){
+          const parts = raw.split(",").map(s=>s.trim()).filter(Boolean);
+          if (f.required && !parts.length) throw new Error(`Arg ${f.key} must contain at least one value`);
+          args[f.key] = parts;
+        } else {
+          args[f.key] = raw;
+        }
+      }
+      return Object.keys(args).length ? args : undefined;
     }
 
     async function verifyAuth(){
-      // Publish a harmless ping message to lantern-message-<ROOM> (your clients may show it)
-      // If you want a zero-visibility verify later, we can add a dedicated admin-only topic.
+      // Uses ntfy form publish to message topic (so it matches your requested syntax).
       const { room } = requireReady();
       const t = topic("message", room);
 
-      const fields = {
+      const params = {
         title: "Lantern Admin",
         message: "Auth verified (test publish)."
       };
 
-      const out = await postNtfyFieldsToTopic(t, fields);
+      const out = await postNtfyForm(t, params);
       return { topic: t, status: out.status };
     }
 
@@ -622,22 +772,31 @@
     // ---- init ----
     load();
     $("baseUrl").value = $("baseUrl").value.trim() || "https://ntfy.kisrani.com";
+    $("room").value = normalizeRoom($("room").value).slice(0,4);
     showPanel($("sendMode").value);
     $("emptyLogHint").style.display = $("log").children.length ? "none" : "block";
-    renderCmdHints();
     setStatus("warn","Idle");
 
-    // persist on changes
-    ["baseUrl","username","password","room","sendMode","cmd","cmdArgs"].forEach(id=>{
+    renderCmdHints();
+    renderArgsForm();
+
+    // persist changes
+    ["baseUrl","username","password","room","sendMode","cmd","cmdId",
+     "ntfyTitle","ntfyMessage","ntfyClick","ntfyAttach","ntfyPriority","ntfyTags","ntfyDelay"
+    ].forEach(id=>{
       $(id).addEventListener("input", save);
       $(id).addEventListener("change", save);
     });
-    $("room").addEventListener("input", (e)=>{
-      e.target.value = normalizeRoom(e.target.value).slice(0,4);
-    });
+
+    $("room").addEventListener("input", (e)=>{ e.target.value = normalizeRoom(e.target.value).slice(0,4); });
 
     $("sendMode").addEventListener("change", (e)=> showPanel(e.target.value));
-    $("cmd").addEventListener("change", renderCmdHints);
+
+    $("cmd").addEventListener("change", ()=>{
+      renderCmdHints();
+      renderArgsForm();
+      save();
+    });
 
     $("btnClear").addEventListener("click", ()=>{
       if (confirm("Clear saved settings (credentials + room) on this device?")){
@@ -674,9 +833,7 @@
       catch(err){ logEntry("LISTEN", String(err.message||err), false); }
     });
 
-    $("btnStopListen").addEventListener("click", ()=>{
-      stopListening();
-    });
+    $("btnStopListen").addEventListener("click", ()=> stopListening());
 
     $("btnSendCommand").addEventListener("click", async ()=>{
       try{
@@ -686,20 +843,11 @@
         const cmd = $("cmd").value;
         const id = ($("cmdId").value.trim() || genId());
 
-        let args = undefined;
-        const rawArgs = $("cmdArgs").value.trim();
-        if (rawArgs){
-          try{
-            args = JSON.parse(rawArgs);
-          }catch{
-            throw new Error("args must be valid JSON (or leave blank).");
-          }
-        }
-
+        const args = readArgsFromForm();
         const payload = { cmd, id };
         if (args !== undefined) payload.args = args;
 
-        const out = await postJsonToTopic(t, payload);
+        const out = await postJson(t, payload);
         setStatus("good","Sent");
         logEntry("COMMAND", `POST ${t}\n\n${JSON.stringify(payload, null, 2)}`, true);
       }catch(err){
@@ -713,42 +861,118 @@
         const { room } = requireReady();
         const t = topic("message", room);
 
-        const title = $("msgTitle").value.trim();
-        const message = $("msgBody").value.trim();
-        const click = $("msgClick").value.trim();
-        const image = $("msgImage").value.trim();
-
+        const message = $("ntfyMessage").value.trim();
         if (!message) throw new Error("message is required.");
 
-        const fields = {};
-        if (title) fields.title = title;
-        fields.message = message;
-        if (image) fields.image = image;
-        if (click) fields.click = click;
+        // ntfy publish parameters (form fields)
+        const params = {
+          title: $("ntfyTitle").value,
+          message,
+          click: $("ntfyClick").value,
+          attach: $("ntfyAttach").value,
+          priority: $("ntfyPriority").value,
+          tags: $("ntfyTags").value,
+          delay: $("ntfyDelay").value,
+        };
 
-        const out = await postNtfyFieldsToTopic(t, fields);
+        const out = await postNtfyForm(t, params);
         setStatus("good","Sent");
-        logEntry("MESSAGE", `POST ${t}\n\n${JSON.stringify(fields, null, 2)}`, true);
+        logEntry("MESSAGE", `POST ${t}\n\n${out.body}`, true);
       }catch(err){
         setStatus("bad","Send failed");
         logEntry("MESSAGE", String(err.message || err), false);
       }
     });
 
-    // Sticky quick actions: lock/unlock/ping (since end is spicy; you can swap it in)
+    // Sticky quick actions
     async function quick(cmd){
       $("sendMode").value = "command";
       showPanel("command");
       $("cmd").value = cmd;
       renderCmdHints();
-      $("cmdArgs").value = "";
+      renderArgsForm();
       $("cmdId").value = "";
       save();
       $("btnSendCommand").click();
     }
     $("stickyLock").addEventListener("click", ()=>quick("lock"));
     $("stickyUnlock").addEventListener("click", ()=>quick("unlock"));
-    $("stickyPing").addEventListener("click", ()=>quick("ping"));
+    $("stickyEnd").addEventListener("click", ()=>quick("end"));
+
+    // ---- streaming listener implementation ----
+    async function startListening(){
+      const { baseUrl, username, password, room } = requireReady();
+      const t = topic("clientresponse", room);
+      const url = `${baseUrl}/${encodeURIComponent(t)}/json`;
+
+      if (abortListen) abortListen.abort();
+      abortListen = new AbortController();
+      listenActive = true;
+      setListenButtons();
+      setStatus("warn", "Listening…");
+
+      logEntry("LISTEN", `Connecting: ${t}/json`, true);
+
+      try{
+        const res = await fetch(url, {
+          method: "GET",
+          headers: { "Authorization": basicAuthHeader(username, password) },
+          signal: abortListen.signal
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+
+        setStatus("good", "Listening (connected)");
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buf = "";
+
+        while(true){
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+
+          let idx;
+          while ((idx = buf.indexOf("\n")) >= 0){
+            const line = buf.slice(0, idx).trim();
+            buf = buf.slice(idx + 1);
+            if (!line) continue;
+
+            try{
+              const obj = JSON.parse(line);
+              logEntry("RESPONSE", JSON.stringify(obj, null, 2), true);
+            }catch{
+              logEntry("RESPONSE", line, true);
+            }
+          }
+        }
+
+        if (!abortListen.signal.aborted){
+          setStatus("bad", "Listener ended");
+          logEntry("LISTEN", "Stream ended (server closed connection).", false);
+        }
+      }catch(err){
+        if (abortListen?.signal?.aborted){
+          setStatus("warn", "Idle");
+          logEntry("LISTEN", "Disconnected (stopped).", true);
+        }else{
+          setStatus("bad", "Listen failed");
+          logEntry("LISTEN", String(err.message || err), false);
+        }
+      }finally{
+        listenActive = false;
+        setListenButtons();
+      }
+    }
+
+    function setListenButtons(){
+      $("btnStartListen").disabled = listenActive;
+      $("btnStopListen").disabled = !listenActive;
+    }
+
+    function stopListening(){ if (abortListen) abortListen.abort(); }
+
   </script>
 </body>
 </html>
